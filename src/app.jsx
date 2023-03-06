@@ -1,38 +1,35 @@
-import { useReducer } from "react";
+import { useCounter } from "./contexts/counter";
 
-function counterReducer(state, action) {
-  switch (action.type) {
-    case "inc": {
-      return state + 1;
-    }
-    case "dec": {
-      return state - 1;
-    }
-    case "zero": {
-      return 0;
-    }
-    default: {
-      return state;
-    }
-  }
+function Display() {
+  const { count } = useCounter();
+
+  return <div>{count}</div>;
+}
+
+function Counter() {
+  const { increase, decrease, setToZero } = useCounter();
+
+  return (
+    <div style={{ display: "flex", gap: 12 }}>
+      <button onClick={increase} aria-label="plus">
+        +
+      </button>
+      <button onClick={decrease} aria-label="minus">
+        -
+      </button>
+      <button onClick={setToZero} aria-label="zero">
+        0
+      </button>
+    </div>
+  );
 }
 
 export function App() {
-  const [state, dispatch] = useReducer(counterReducer, 0);
-
   return (
     <div>
-      <div>{state}</div>
-      <div style={{ marginTop: 8, marginBottom: 8, display: "flex", gap: 6 }}>
-        <button onClick={() => dispatch({ type: "inc" })} aria-label="plus">
-          +
-        </button>
-        <button onClick={() => dispatch({ type: "dec" })} aria-label="minus">
-          -
-        </button>
-        <button onClick={() => dispatch({ type: "zero" })} aria-label="zero">
-          0
-        </button>
+      <Display />
+      <div style={{ marginTop: 8, marginBottom: 8 }}>
+        <Counter />
       </div>
     </div>
   );
